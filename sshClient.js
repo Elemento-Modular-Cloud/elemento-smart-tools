@@ -4,6 +4,8 @@ var server = require('http').createServer(onRequest);
 
 var io = require('socket.io')(server);
 var SSHClient = require('ssh2').Client;
+const { readFileSync } = require('fs');
+
 
 // Load static files into memory
 var staticFiles = {};
@@ -53,8 +55,8 @@ io.on('connection', function(socket) {
   }).connect({
     host: '',
     port: 22,
-    username: '',
-    password: ''
+    // password: '08101991',
+    privateKey: readFileSync('/Users/filippovalle/.ssh/google_compute_engine')
   });
 });
 

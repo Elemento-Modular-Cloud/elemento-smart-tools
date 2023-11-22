@@ -1,4 +1,22 @@
 {
+  "name": "elemento-html-viewer",
+  "description": "Smart viewer tools for ElectrOS",
+  "version": "1.0.0",
+  "main": "sshClient.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon sshClient.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer.git"
+  },
+  "author": "hello@elemento.cloud",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer/issues"
+  },
+  "homepage": "https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer#readme",
   "dependencies": {
     "express": "^4.18.2",
     "socket.io": "^4.7.2",

@@ -1,13 +1,13 @@
 - $> npm install express socket.io ssh2 xterm xterm-addon-fit
 
-###documentation:
+### documentation:
 
 1. xterm.js: http://xtermjs.org/docs/   show the terminal on "Elemento terminal"
 2. ssh2: https://www.npmjs.com/package/ssh2?activeTab=readme    js client for ssh connection
 3. socket.io: https://socket.io/docs/v4/    provide the communication to set up the ssh connection
 4. expressjs: https://expressjs.com/ web framework for node.js
 
-###license:
+### license:
 
 1. xterm.js: MIT license https://github.com/xtermjs/xterm.js/blob/master/LICENSE
 2. ssh2: MIT license https://github.com/mscdex/ssh2/blob/master/LICENSE  
@@ -18,12 +18,12 @@
 - $> node sshClient.js
 - open on browser at localhost:8000
 
-###code infos:
+### code infos:
 
 some parts of the code are copied from the documentation or from others sources
 
-####index.html
+#### index.html
 lines 21 to 37: socket.io documentation https://socket.io/docs/v4/emit-cheatsheet/ 
 
-####sshClient.js
+#### sshClient.js
 lines 9 to 15 and 33 to 59 https://devissuefixer.com/questions/connecting-to-remote-ssh-server-via-nodejshtml5-console

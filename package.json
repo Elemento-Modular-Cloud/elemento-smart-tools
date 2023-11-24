@@ -3,9 +3,13 @@
   "description": "Smart viewer tools for ElectrOS",
   "version": "1.0.0",
   "main": "sshClient.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
   "scripts": {
-    "dev": "nodemon sshClient.js"
+    "ssh": "nodemon ./ssh/ssh.js",
+    "rdp": "nodemon ./rdp/rdp.js",
+    "lint": "standard --fix"
   },
   "repository": {
     "type": "git",
@@ -19,6 +23,7 @@
   "homepage": "https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "node-rdpjs": "https://github.com/t-system/node-rdpjs.git",
     "socket.io": "^4.7.2",
     "ssh2": "^1.14.0",
     "xterm": "^5.2.1",

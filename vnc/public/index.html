@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="shortcut icon" href="./style/img/logo.png" />
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <title>VNC</title>
+
+        <script>
+            window.addEventListener('load', function() {
+                const vnc = document.getElementById('vnc');
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const host = urlParams.get('host');
+                const username = urlParams.get('username');
+                const password = urlParams.get('password');
+                const port = 5900;
+
+                const vncFrame = document.getElementById('vnc');
+                vncFrame.style.position = 'absolute';
+                vncFrame.style.top = '0';
+                vncFrame.style.left = '0';
+                vncFrame.style.width = '100%';
+                vncFrame.style.height = '100%';
+                vncFrame.style.border = 'none';
+
+
+                const wsUrlParams = new URLSearchParams();
+                wsUrlParams.set('host', host);
+                wsUrlParams.set('port', port);
+                
+                // https://novnc.com/noVNC/docs/EMBEDDING.html
+                const noVNCParams = new URLSearchParams();
+                
+                noVNCParams.set('autoconnect', 1);
+                noVNCParams.set('reconnect_delay', 1000);
+                noVNCParams.set('username', username);
+                noVNCParams.set('password', password);
+                noVNCParams.set('path', "websockify?" + wsUrlParams.toString());
+                noVNCParams.set('resize', 'scale');
+                vncFrame.src = "/noVNC/vnc_lite.html?" + noVNCParams.toString();
+                console.log('URL FINALE:' + vncFrame.src);
+            }, false); 
+        </script>
+    </head>
+    <body>
+        <iframe id="vnc" style="border: 1px solid #ccc;" width="1280" height="720"></iframe>
+    </body>
+</html>

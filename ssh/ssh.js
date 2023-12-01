@@ -15,7 +15,14 @@ staticFiles['/'] = fs.readFileSync(path.join(__dirname, 'index.html'))
 
 function onRequest (req, res) {
   let file
-  if (req.method === 'GET' && (file = staticFiles[req.url])) {
+
+  if (Object.prototype.hasOwnProperty.call(staticFiles, req.url)) {
+    file = staticFiles[req.url]
+  } else {
+    file = staticFiles['/']
+  }
+
+  if (req.method === 'GET' && file) {
     res.writeHead(200, {
       'Content-Type': 'text/' +
         (/css$/.test(req.url) ? 'css' : (/js$/.test(req.url) ? 'javascript' : 'html'))
@@ -28,6 +35,10 @@ function onRequest (req, res) {
 
 io.on('connection', (socket) => {
   try {
+    const host = socket.handshake.query.host
+    const username = socket.handshake.query.username
+    const password = socket.handshake.query.password
+
     const ssh = new SSHClient()
     ssh.on('ready', () => {
       socket.emit('data', '> SSH CONNECTION ESTABLISHED\n\r')
@@ -54,10 +65,10 @@ io.on('connection', (socket) => {
     })
 
     ssh.connect({
-      host: '172.16.24.182',
+      host,
       port: 22,
-      username: 'elemento',
-      password: '0000'
+      username,
+      password
     })
   } catch (error) {
     socket.emit('data', '> SSH CONNECTION ERROR: ' + error + '\n\r')

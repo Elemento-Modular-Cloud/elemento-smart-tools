@@ -1,0 +1,79 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/xterm.css"/>
+    <script src="/xterm.js"></script>
+    <script src="/xterm-addon-fit.js"></script>
+    <script src="/socket.io/socket.io.js"></script> 
+    <title>ssh web Terminal</title>
+    <script>
+      window.addEventListener('load', function() {
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+          const host = urlParams.get('host');
+          const username = urlParams.get('username');
+          const password = urlParams.get('password');
+
+          var terminalContainer = document.getElementById('ssh');
+          const term = new Terminal({ cursorBlink: true });        
+          const fitAddon = new FitAddon.FitAddon();   //manage the size of the terminal
+          term.loadAddon(fitAddon);
+          term.open(terminalContainer);
+          fitAddon.fit(); //fit the size of the terminal according to ssh
+
+          var socket = io({
+            query: {
+              host: host,
+              username: username,
+              password: password
+            }
+          }) //.connect();
+          socket.on('connect', function() {
+              term.write('> Loading socket to SSH provider...\n\r');
+          });
+
+          term.onKey(function (ev) {
+              socket.emit('data', ev.key);
+          });
+
+          socket.on('data', function(data) {
+            term.write(data);
+          });
+
+          socket.on('disconnect', function() {
+            term.write('> Disconnected\n\r');
+          });
+        } catch (error) {
+          console.log(error)
+        } 
+      }, false); 
+    </script>
+    <style> 
+      body {
+          font-family: helvetica, sans-serif, arial;
+          font-size: 1em;
+          color: #111;
+          background-color: #000;
+          width: 100vw;
+        }
+        h1 {
+          text-align: center;
+          color: #ffa601;
+        }
+        #ssh {
+          width: 99vw !important;
+          height: 98vh !important;
+        }
+        #ssh .terminal {
+          background-color: #111;
+          color: #fafafa;
+        }
+        #ssh .terminal:focus .terminal-cursor {
+          background-color: #fafafa;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="ssh"></div>
+  </body>
+</html>

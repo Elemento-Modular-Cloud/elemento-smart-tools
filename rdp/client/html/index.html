@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="./img/favicon.ico">
+
+    <title>Mstsc.js</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/signin.css" rel="stylesheet">
+    <script type="text/javascript" src="./socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="./js/mstsc.js"></script>
+		<script type="text/javascript" src="./js/keyboard.js"></script>
+		<script type="text/javascript" src="./js/rle.js"></script>
+		<script type="text/javascript" src="./js/client.js"></script>
+		<script type="text/javascript" src="./js/canvas.js"></script>
+    <script language="javascript">
+
+			window.addEventListener('load', function() {
+				var client = Mstsc.client.create(Mstsc.$("rdp"));
+				
+				function connect () {
+
+					const urlParams = new URLSearchParams(window.location.search);
+					const ip = urlParams.get('host');
+					const username = urlParams.get('username');
+					const password = urlParams.get('password');
+
+					var canvas = Mstsc.$("rdp");
+					canvas.style.display = 'inline';
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+					client.connect(ip, ip, username, password, function (err) {
+						Mstsc.$("rdp").style.display = 'none';
+					});
+				}
+
+				connect();
+			}, false); 
+		</script>
+  </head>
+  <body>
+    <canvas id="rdp" style="display:none">
+  </body>
+</html>

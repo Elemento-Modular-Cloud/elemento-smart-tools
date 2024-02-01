@@ -4,9 +4,7 @@
   "version": "1.0.0",
   "main": "sshClient.js",
   "scripts": {
-    "ssh": "nodemon ./ssh/ssh.js",
-    "rdp": "nodemon ./rdp/rdp.js",
-    "vnc": "nodemon ./vnc/vnc.js",
+    "start": "nodemon elemento-remote-tools.js",
     "lint": "standard --fix"
   },
   "repository": {
@@ -21,6 +19,7 @@
   "homepage": "https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer#readme",
   "dependencies": {
     "@novnc/novnc": "^1.4.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "net": "^1.0.2",
     "node-rdpjs": "https://github.com/t-system/node-rdpjs.git",

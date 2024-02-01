@@ -1,38 +1,26 @@
-const fs = require('fs')
 const path = require('path')
-let server = require('http')
-const io = require('socket.io')(server)
+const express = require('express')
+const cors = require('cors')
+const http = require('http')
+const socketIO = require('socket.io')
 const SSHClient = require('ssh2').Client
 
 async function runSSHServer () {
-  // Load static files into memory
-  const staticFiles = {}
-  // let basePath = path.join(require.resolve('xterm'), '..')
-  staticFiles['/xterm.css'] = fs.readFileSync(path.join(__dirname, 'xterm.css'))
-  staticFiles['/xterm.js'] = fs.readFileSync(path.join(__dirname, 'xterm.js'))
-  // basePath = path.join(require.resolve('xterm-addon-fit'), '..')
-  staticFiles['/xterm-addon-fit.js'] = fs.readFileSync(path.join(__dirname, 'xterm-addon-fit.js'))
-  staticFiles['/'] = fs.readFileSync(path.join(__dirname, 'index.html'))
+  const app = express()
+  const server = http.createServer(app)
+  const io = socketIO(server)
 
-  function onRequest (req, res) {
-    let file
+  app.use(cors({ origin: '*' }))
+  // Serve static files
+  app.use('/socket.io.min.js', express.static(path.join(__dirname, 'socket.io.min.js')))
+  app.use('/xterm.css', express.static(path.join(__dirname, 'xterm.css')))
+  app.use('/xterm.js', express.static(path.join(__dirname, 'xterm.js')))
+  app.use('/xterm-addon-fit.js', express.static(path.join(__dirname, 'xterm-addon-fit.js')))
 
-    if (Object.prototype.hasOwnProperty.call(staticFiles, req.url)) {
-      file = staticFiles[req.url]
-    } else {
-      file = staticFiles['/']
-    }
-
-    if (req.method === 'GET' && file) {
-      res.writeHead(200, {
-        'Content-Type': 'text/' +
-          (/css$/.test(req.url) ? 'css' : (/js$/.test(req.url) ? 'javascript' : 'html'))
-      })
-      return res.end(file)
-    }
-    res.writeHead(404)
-    res.end()
-  }
+  // Serve index.html for the root URL
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'))
+  })
 
   io.on('connection', (socket) => {
     try {
@@ -45,7 +33,9 @@ async function runSSHServer () {
         socket.emit('data', '> SSH CONNECTION ESTABLISHED\n\r')
 
         ssh.shell((err, stream) => {
-          if (err) { return socket.emit('data', '> SSH SHELL ERROR: ' + err.message + '\n\r') }
+          if (err) {
+            return socket.emit('data', '> SSH SHELL ERROR: ' + err.message + '\n\r')
+          }
           socket.on('data', (data) => {
             stream.write(data)
           })
@@ -79,7 +69,6 @@ async function runSSHServer () {
   const port = 8000
   console.log('Listening on port', port)
 
-  server = server.createServer(onRequest)
   server.listen(port)
 }
 

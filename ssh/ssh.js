@@ -67,7 +67,7 @@ async function runSSHServer () {
   })
 
   const port = 8000
-  console.log('Listening on port', port)
+  console.log('[SSH service] Listening on port', port)
 
   server.listen(port)
 }

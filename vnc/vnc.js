@@ -11,7 +11,7 @@ async function runVNCServer () {
   app.use(bodyParser.urlencoded({ extended: true }))
 
   const server = app.listen(10000, () => {
-    console.log('Server is running on port 10000')
+    console.log('[VNC service] Listening on port 10000')
   })
 
   const wsServer = new WebSocketServer({ server, path: '/websockify' })

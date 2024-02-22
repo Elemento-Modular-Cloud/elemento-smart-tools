@@ -1,8 +1,11 @@
 {
-  "name": "elemento-html-viewer",
+  "name": "elemento-smart-tools",
   "description": "Smart viewer tools for ElectrOS",
   "version": "1.0.0",
-  "main": "sshClient.js",
+  "main": "elemento-smart-tools.js",
+  "bin": {
+    "elemento-smart-tools": "./elemento-smart-tools.js"
+  },
   "scripts": {
     "start": "nodemon elemento-remote-tools.js",
     "lint": "standard --fix"
@@ -29,6 +32,23 @@
     "xterm-addon-fit": "^0.7.0"
   },
   "devDependencies": {
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "pkg": {
+    "scripts": [
+      "ssh/*.js",
+      "rdp/**/*.js"
+    ],
+    "assets": [
+      "vnc/public/**/*",
+      "ssh/*.html",
+      "ssh/*.css",
+      "rdp/client/**/*"
+    ],
+    "targets": [ "node18-linux", "node18-macos", "node18-win" ],
+    "compress": "GZip",
+    "outputPath": "out"
   }
 }

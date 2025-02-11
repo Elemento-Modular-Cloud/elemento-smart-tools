@@ -7,7 +7,7 @@
     "elemento-smart-tools": "./elemento-smart-tools.js"
   },
   "scripts": {
-    "start": "nodemon elemento-remote-tools.js",
+    "start": "node elemento-smart-tools.js",
     "lint": "standard --fix"
   },
   "repository": {
@@ -21,17 +21,21 @@
   },
   "homepage": "https://github.com/Elemento-Modular-Cloud/Elemento-HTML-viewer#readme",
   "dependencies": {
-    "@novnc/novnc": "^1.4.0",
+    "@novnc/novnc": "^1.5.0",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "net": "^1.0.2",
     "node-rdpjs": "https://github.com/t-system/node-rdpjs.git",
-    "socket.io": "^4.7.2",
-    "ssh2": "^1.14.0",
-    "xterm": "^5.2.1",
-    "xterm-addon-fit": "^0.7.0"
+    "nodemon": "^3.1.9",
+    "socket.io": "^4.8.1",
+    "ssh2": "^1.16.0",
+    "@xterm/xterm": "^5.3.0",
+    "@xterm/addon-fit": "latest",
+    "lru-cache": "^10.2.0"
   },
   "devDependencies": {
+    "rimraf": "^5.0.5",
+    "glob": "^10.3.10",
     "standard": "^17.1.0",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
@@ -47,7 +51,11 @@
       "ssh/*.css",
       "rdp/client/**/*"
     ],
-    "targets": [ "node18-linux", "node18-macos", "node18-win" ],
+    "targets": [
+      "node18-linux",
+      "node18-macos",
+      "node18-win"
+    ],
     "compress": "GZip",
     "outputPath": "out"
   }
